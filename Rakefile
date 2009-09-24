@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/blaix/cheddargetter"
     gem.authors = ["Justin Blake"]
     gem.add_development_dependency "rspec"
+    gem.add_development_dependency "fakeweb"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
@@ -21,6 +22,7 @@ require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
   spec.spec_files = FileList['spec/**/*_spec.rb']
+  spec.spec_opts = ['-c']
 end
 
 Spec::Rake::SpecTask.new(:rcov) do |spec|
