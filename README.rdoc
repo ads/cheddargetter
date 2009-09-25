@@ -23,6 +23,16 @@ returns an array of plans:
   [{"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...},
    {"name" => "Big",    "code" => "BIG",    "recurringChargeAmount" => "100.00", etc..}]
 
+=== Get one plan:
+
+Pass the plan code. I didn't bother to implement using ids because why would you use ids?
+
+  @cheddar_getter.plan('LITTLE')
+  
+returns the plan as a hash:
+
+  {"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...}
+
 == Copyright
 
 Copyright (c) 2009 Justin Blake. See LICENSE for details.

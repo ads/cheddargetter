@@ -38,6 +38,20 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #plan(plan_code)' do
+    it "should return the requested plan if the plan code is valid" do
+      (1..3).each do |i|
+        mock_request(:get, "/plans/get/productCode/MY_PRODUCT/code/MY_PLAN#{i}", "<plans><plan>plan#{i}</plan></plans>")
+        @cheddar_getter.plan("MY_PLAN#{i}").should == "plan#{i}"
+      end
+    end
+    
+    it "should raise if the plan code is not valid" do
+      mock_request(:get, "/plans/get/productCode/MY_PRODUCT/code/BAD_CODE", "<error>bad code</error>")
+      lambda { @cheddar_getter.plan('BAD_CODE') }.should raise_error(CheddarGetter::Error, 'bad code')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }
