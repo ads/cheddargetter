@@ -52,6 +52,38 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #customers' do
+    it "should return an empty array if there are no customers" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<customers></customers>")
+      @cheddar_getter.customers.should == []
+    end
+    
+    it "should return an empty array if there is a stupid, inconsistent error about there being no customers" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<error>Bad request: No customers found</error>")
+      @cheddar_getter.customers.should == []
+    end
+
+    it "should return the customer in an array if there is one customer" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<customers><customer>customer1</customer></customers>")
+      customers = @cheddar_getter.customers
+      customers.length.should == 1
+      customers.should include('customer1')
+    end
+    
+    it "should return the customers in an array if there are multiple customers" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<customers><customer>customer1</customer><customer>customer2</customer></customers>")
+      customers = @cheddar_getter.customers
+      customers.length.should == 2
+      customers.should include('customer1')
+      customers.should include('customer2')
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<error>the message</error>")
+      lambda { @cheddar_getter.customers }.should raise_error(CheddarGetter::Error, 'the message')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }

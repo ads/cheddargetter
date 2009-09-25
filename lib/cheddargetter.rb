@@ -16,7 +16,7 @@ class CheddarGetter
   #   [{"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...},
   #    {"name" => "Big",    "code" => "BIG",    "recurringChargeAmount" => "100.00", etc..}]
   def plans
-    response = get("https://cheddargetter.com/xml/plans/get/productCode/#{@product_code}")
+    response = get("/plans/get/productCode/#{@product_code}")
     normalize_collection(response, 'plans', 'plan')
   end
   
@@ -24,14 +24,26 @@ class CheddarGetter
   #
   #   {"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...}
   def plan(plan_code)
-    response = get("https://cheddargetter.com/xml/plans/get/productCode/#{@product_code}/code/#{plan_code}")
+    response = get("/plans/get/productCode/#{@product_code}/code/#{plan_code}")
     normalize(response, 'plans', 'plan')
+  end
+  
+  def customers
+    response = get("/customers/get/productCode/#{@product_code}")
+    normalize_collection(response, 'customers', 'customer')
+  rescue Error => e # HACK! the api is inconsitent about returning empty nodes vs. sending errors
+    if e.message =~ /no customers found/i
+      return []
+    else
+      raise
+    end
   end
   
   private
   
-  def get(*args)
-    response = self.class.get(*args)
+  def get(path)
+    path = "https://cheddargetter.com/xml" + path
+    response = self.class.get(path)
     raise Error.new(response['error']) if response['error']
     response
   end
