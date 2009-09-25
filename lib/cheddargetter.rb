@@ -11,6 +11,10 @@ class CheddarGetter
     self.class.basic_auth(username, password)
   end
   
+  # Returns an array of plans:
+  #
+  #   [{"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...},
+  #    {"name" => "Big",    "code" => "BIG",    "recurringChargeAmount" => "100.00", etc..}]
   def plans
     response = get("https://cheddargetter.com/xml/plans/get/productCode/#{@product_code}")
     normalize(response, 'plans', 'plan')

@@ -6,11 +6,22 @@ Yes, CheddarGetter provides a ruby gem for this already, but the more I tried to
 
 == Installation
 
-TODO
+  gem install ads-cheddargetter -s http://gems.github.com
 
 == Usage
 
-TODO
+Pass in your CheddarGetter username (email), password, and the product code for the product you'll be working with:
+
+  @cheddar_getter = CheddarGetter.new('me@mysite.com', 'password', 'MY_PRODUCT')
+
+=== Get all plans:
+  
+  @cheddar_getter.plans
+
+returns an array of plans:
+
+  [{"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...},
+   {"name" => "Big",    "code" => "BIG",    "recurringChargeAmount" => "100.00", etc..}]
 
 == Copyright
 
