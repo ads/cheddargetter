@@ -38,6 +38,11 @@ class CheddarGetter
       raise
     end
   end
+
+  def customer(customer_code)
+    response = get("/customers/get/productCode/#{@product_code}/code/#{customer_code}")
+    normalize(response, 'customers', 'customer')
+  end
   
   private
   

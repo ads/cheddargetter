@@ -51,7 +51,7 @@ describe "an instance of CheddarGetter" do
       lambda { @cheddar_getter.plan('BAD_CODE') }.should raise_error(CheddarGetter::Error, 'bad code')
     end
   end
-  
+
   describe 'calling #customers' do
     it "should return an empty array if there are no customers" do
       mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<customers></customers>")
@@ -81,6 +81,20 @@ describe "an instance of CheddarGetter" do
     it "should raise if an error is returned" do
       mock_request(:get, "/customers/get/productCode/MY_PRODUCT", "<error>the message</error>")
       lambda { @cheddar_getter.customers }.should raise_error(CheddarGetter::Error, 'the message')
+    end
+  end
+
+  describe 'calling #customer(customer_code)' do
+    it "should return the requested customer if the customer code is valid" do
+      (1..3).each do |i|
+        mock_request(:get, "/customers/get/productCode/MY_PRODUCT/code/MY_CUSTOMER#{i}", "<customers><customer>customer#{i}</customer></customers>")
+        @cheddar_getter.customer("MY_CUSTOMER#{i}").should == "customer#{i}"
+      end
+    end
+    
+    it "should raise if the customer code is not valid" do
+      mock_request(:get, "/customers/get/productCode/MY_PRODUCT/code/BAD_CODE", "<error>bad code</error>")
+      lambda { @cheddar_getter.customer('BAD_CODE') }.should raise_error(CheddarGetter::Error, 'bad code')
     end
   end
   
