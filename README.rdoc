@@ -4,7 +4,7 @@ Wrapper for the Cheddar Getter API. Currently limited to the subset of API calls
 
 == Installation
 
-  gem install ads-cheddargetter -s http://gems.github.com
+  gem install cheddargetter -s http://gemcutter.org/
 
 == Usage
 
