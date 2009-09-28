@@ -7,9 +7,9 @@ begin
     gem.name = "cheddargetter"
     gem.summary = "Ruby wrapper for the CheddarGetter API"
     gem.description = "Ruby wrapper for the CheddarGetter API"
-    gem.email = "justin@megablaix.com"
-    gem.homepage = "http://github.com/blaix/cheddargetter"
-    gem.authors = ["Justin Blake"]
+    gem.email = "justin@adsdevshop.com"
+    gem.homepage = "http://github.com/ads/cheddargetter"
+    gem.authors = ["Atlantic Dominion Solutions"]
     gem.add_dependency "httparty"
     gem.add_development_dependency "rspec"
     gem.add_development_dependency "fakeweb"
