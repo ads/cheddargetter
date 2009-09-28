@@ -44,11 +44,43 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  # Pass an attributes hash for the new customer:
+  # 
+  #   :code       => 'CUSTOMER-1',            # required
+  #   :firstName  => 'Justin',                # required
+  #   :lastName   => 'Blake',                 # required
+  #   :email      => 'justin@adsdevshop.com', # required
+  #   :company    => 'ADS',                   # optional
+  #   :subscription => {
+  #     :planCode     => "INDY",          # required
+  #     :ccFirstName  => "Justin",        # required unless plan is free
+  #     :ccLastName   => "Blake",         # required unless plan is free
+  #     :ccNumber     => "numbers only",  # required unless plan is free
+  #     :ccExpiration => "MM-YYYY",       # required unless plan is free
+  #     :ccZip        => "5 digits only"  # required unless plan is free
+  #   }
+  #
+  # Returns the customer:
+  #
+  #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
+  def create_customer(attributes)
+    response = post("/customers/new/productCode/#{@product_code}", :body => attributes)
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
+    request(:get, path)
+  end
+  
+  def post(path, options = {})
+    request(:post, path, options)
+  end
+
+  def request(method, path, options = {})
     path = "https://cheddargetter.com/xml" + path
-    response = self.class.get(path)
+    response = self.class.send(method, path, options)
     raise Error.new(response['error']) if response['error']
     response
   end

@@ -99,7 +99,15 @@ describe "an instance of CheddarGetter" do
   end
   
   describe 'calling #create_customer(attributes)' do
-    it "should create the customer"
+    it "should return the created customer" do
+      mock_request(:post, "/customers/new/productCode/MY_PRODUCT", "<customers><customer>new customer</customer></customers>")
+      @cheddar_getter.create_customer(:name => 'justin', :age => 12).should == "new customer"
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/new/productCode/MY_PRODUCT", "<error>failed create</error>")
+      lambda { @cheddar_getter.create_customer(:name => 'justin') }.should raise_error(CheddarGetter::Error, 'failed create')
+    end
   end
   
   def mock_request(method, request_path, response_xml)
