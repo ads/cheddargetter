@@ -110,6 +110,18 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #update_customer(customer_code, attributes)' do
+    it "should return the updated customer" do
+      mock_request(:post, "/customers/edit/productCode/MY_PRODUCT/code/MY_CUSTOMER", "<customers><customer>updated customer</customer></customers>")
+      @cheddar_getter.update_customer('MY_CUSTOMER', :name => "new name").should == "updated customer"
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/edit/productCode/MY_PRODUCT/code/MY_CUSTOMER", "<error>failed update</error>")
+      lambda { @cheddar_getter.update_customer('MY_CUSTOMER', :name => "new name") }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }

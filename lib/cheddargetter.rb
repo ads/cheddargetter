@@ -68,6 +68,15 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  # Attributes are the same as #create_customer
+  # Only included attributes will be udpated.
+  # Credit Card information is only required if the plan is not free and
+  # no credit card information is already saved.
+  def update_customer(customer_code, attributes)
+    response = post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
