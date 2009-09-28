@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Justin Blake"]
+  s.authors = ["Atlantic Dominion Solutions"]
   s.date = %q{2009-09-28}
   s.description = %q{Ruby wrapper for the CheddarGetter API}
-  s.email = %q{justin@megablaix.com}
+  s.email = %q{justin@adsdevshop.com}
   s.extra_rdoc_files = [
     "LICENSE",
      "README.rdoc"
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
      "spec/spec_helper.rb",
      "spec/spec_watcher.rb"
   ]
-  s.homepage = %q{http://github.com/blaix/cheddargetter}
+  s.homepage = %q{http://github.com/ads/cheddargetter}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.3}
