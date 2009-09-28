@@ -1,8 +1,6 @@
 = CheddarGetter
 
-Wrapper for the CheddarGetter API: https://cheddargetter.com/api
-
-Yes, CheddarGetter provides a ruby gem for this already, but the more I tried to fix it, the more I wanted to roll my own, so here we are.
+Wrapper for the Cheddar Getter API.
 
 == Installation
 
@@ -10,28 +8,18 @@ Yes, CheddarGetter provides a ruby gem for this already, but the more I tried to
 
 == Usage
 
-Pass in your CheddarGetter username (email), password, and the product code for the product you'll be working with:
-
+Create a CheddarGetter object with your username (email), password, and product code:
+  
   @cheddar_getter = CheddarGetter.new('me@mysite.com', 'password', 'MY_PRODUCT')
 
-=== Get all plans:
-  
+Now you can call methods that correspond to the CheddarGetter API. For example, to get a list of all plans:
+
   @cheddar_getter.plans
-
-returns an array of plans:
-
-  [{"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...},
-   {"name" => "Big",    "code" => "BIG",    "recurringChargeAmount" => "100.00", etc..}]
-
-=== Get one plan:
-
-Pass the plan code. I didn't bother to implement using ids because why would you use ids?
-
-  @cheddar_getter.plan('LITTLE')
   
-returns the plan as a hash:
-
-  {"name" => "Little", "code" => "LITTLE", "recurringChargeAmount" => "1.00", etc...}
+For the available methods and more detailed information on each, see the RDocs and Cheddar Getter API:
+  
+* RDocs: http://rdoc.info/projects/ads/cheddargetter
+* Cheddar Getter API: https://cheddargetter.com/api
 
 == Copyright
 
