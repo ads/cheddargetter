@@ -1,6 +1,6 @@
 = CheddarGetter
 
-Wrapper for the Cheddar Getter API.
+Wrapper for the Cheddar Getter API. Currently limited to the subset of API calls we actually use...
 
 == Installation
 
