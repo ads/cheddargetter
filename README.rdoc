@@ -23,4 +23,4 @@ For the available methods and more detailed information on each, see the RDocs a
 
 == Copyright
 
-Copyright (c) 2009 Justin Blake. See LICENSE for details.
+Copyright (c) 2009 Atlantic Dominion Solutions. See LICENSE for details.
