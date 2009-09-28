@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cheddargetter}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin Blake"]
-  s.date = %q{2009-09-25}
+  s.date = %q{2009-09-28}
   s.description = %q{Ruby wrapper for the CheddarGetter API}
   s.email = %q{justin@megablaix.com}
   s.extra_rdoc_files = [
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "cheddargetter.gemspec",
      "lib/cheddargetter.rb",
      "spec/cheddargetter_spec.rb",
      "spec/spec_helper.rb",
