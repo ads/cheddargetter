@@ -98,6 +98,10 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #create_customer(attributes)' do
+    it "should create the customer"
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }
