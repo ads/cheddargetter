@@ -122,6 +122,18 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #cancel_subscription(customer_code)' do
+    it "should return the updated customer" do
+      mock_request(:post, "/customers/cancel/productCode/MY_PRODUCT/code/MY_CUSTOMER", "<customers><customer>updated customer</customer></customers>")
+      @cheddar_getter.cancel_subscription('MY_CUSTOMER').should == "updated customer"
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/cancel/productCode/MY_PRODUCT/code/MY_CUSTOMER", "<error>failed update</error>")
+      lambda { @cheddar_getter.cancel_subscription('MY_CUSTOMER') }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }

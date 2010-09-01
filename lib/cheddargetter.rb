@@ -77,6 +77,14 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  # Returns the customer:
+  #
+  #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
+  def cancel_subscription(customer_code)
+    response = post("/customers/cancel/productCode/#{@product_code}/code/#{customer_code}")
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
