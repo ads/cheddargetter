@@ -85,6 +85,23 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  # Pass an attributes hash for the updated subscription:
+  # 
+  #   :planCode     => "INDY",          # optional
+  #   :ccFirstName  => "Justin",        # required unless plan is free or already has credit card
+  #   :ccLastName   => "Blake",         # required unless plan is free or already has credit card
+  #   :ccNumber     => "numbers only",  # required unless plan is free or already has credit card
+  #   :ccExpiration => "MM-YYYY",       # required unless plan is free or already has credit card
+  #   :ccZip        => "5 digits only"  # required unless plan is free or already has credit card
+  #
+  # Returns the customer:
+  #
+  #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
+  def update_subscription(customer_code, attributes)
+    response = post("/customers/edit-subscription/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
