@@ -22,7 +22,12 @@ example, to get a list of all plans:
 For the available methods and more detailed information on each, see the
 [RDocs](http://rdoc.info/github/ads/cheddargetter/master/frames) and the
 [Cheddar Getter API](https://cheddargetter.com/api).
-  
+
+## Contributors
+
+Thanks to [jonnii](http://github.com/jonnii) for kicking new life into the
+project by adding some new methods long after we let this thing get stale.
+
 ## Copyright
 
 Copyright (c) 2010 Atlantic Dominion Solutions. See LICENSE for details.
