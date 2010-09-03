@@ -107,7 +107,6 @@ class CheddarGetter
   end
   
   def delete_customer(customer_code)
-    
     post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
   end
   
