@@ -4,7 +4,7 @@ Wrapper for the Cheddar Getter API. Currently limited to the subset of API calls
 
 == Installation
 
-  gem install cheddargetter -s http://gemcutter.org/
+  gem install cheddargetter
 
 == Usage
 
@@ -18,7 +18,7 @@ Now you can call methods that correspond to the CheddarGetter API. For example, 
   
 For the available methods and more detailed information on each, see the RDocs and Cheddar Getter API:
   
-* RDocs: http://rdoc.info/projects/ads/cheddargetter
+* RDocs: http://rdoc.info/github/ads/cheddargetter/master/frames
 * Cheddar Getter API: https://cheddargetter.com/api
 
 == Copyright
