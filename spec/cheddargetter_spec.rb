@@ -146,6 +146,18 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #delete_all_customers' do
+    it "should return the updated customer" do
+      mock_request(:post, "/customers/delete-all/confirm/1/productCode/MY_PRODUCT", "")
+      @cheddar_getter.delete_all_customers
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/delete-all/confirm/1/productCode/MY_PRODUCT", "<error>failed update</error>")
+      lambda { @cheddar_getter.delete_all_customers }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }

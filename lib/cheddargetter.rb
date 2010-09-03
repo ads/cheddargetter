@@ -102,6 +102,10 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  def delete_all_customers
+    post("/customers/delete-all/confirm/1/productCode/#{@product_code}")
+  end
+  
   private
   
   def get(path)
