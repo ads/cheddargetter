@@ -106,6 +106,11 @@ class CheddarGetter
     post("/customers/delete-all/confirm/1/productCode/#{@product_code}")
   end
   
+  def delete_customer(customer_code)
+    
+    post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
+  end
+  
   private
   
   def get(path)

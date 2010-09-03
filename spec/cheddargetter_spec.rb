@@ -147,7 +147,7 @@ describe "an instance of CheddarGetter" do
   end
   
   describe 'calling #delete_all_customers' do
-    it "should return the updated customer" do
+    it "should delete all the customers" do
       mock_request(:post, "/customers/delete-all/confirm/1/productCode/MY_PRODUCT", "")
       @cheddar_getter.delete_all_customers
     end
@@ -155,6 +155,18 @@ describe "an instance of CheddarGetter" do
     it "should raise if an error is returned" do
       mock_request(:post, "/customers/delete-all/confirm/1/productCode/MY_PRODUCT", "<error>failed update</error>")
       lambda { @cheddar_getter.delete_all_customers }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+  end
+  
+  describe 'calling #delete_customer(customer_code)' do
+    it "should delete the customer" do
+      mock_request(:post, "/customers/delete/productCode/MY_PRODUCT/code/MY_CUSTOMER", "")
+      @cheddar_getter.delete_customer('MY_CUSTOMER')
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/delete/productCode/MY_PRODUCT/code/MY_CUSTOMER", "<error>failed update</error>")
+      lambda { @cheddar_getter.delete_customer('MY_CUSTOMER') }.should raise_error(CheddarGetter::Error, 'failed update')
     end
   end
   
