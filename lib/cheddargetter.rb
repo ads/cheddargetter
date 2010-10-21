@@ -91,6 +91,20 @@ class CheddarGetter
     response = post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
     normalize(response, 'customers', 'customer')
   end
+
+  # Delete all customers from CheddarGetter
+  # You must pass in :iDieWithHonor as a safety measure.
+  def seppuku!(really=nil)
+    if really == :iDieWithHonour
+      begin
+        response = post("/customers/delete-all/confirm/1/productCode/#{@product_code}")
+      # CheddarGetter assumes we're a browser and tries 
+      # to redirect us to our admin site afterwards.
+      rescue HTTParty::UnsupportedURIScheme
+        true
+      end
+    end
+  end
   
   # Returns the customer:
   #
