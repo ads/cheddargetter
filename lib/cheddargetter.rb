@@ -60,6 +60,9 @@ class CheddarGetter
   #     :ccZip        => "5 digits only"  # required unless plan is free
   #   }
   #
+  # The full request dictionary can be found here:
+  # https://cheddargetter.com/developers#add-customer
+  #
   # Returns the customer:
   #
   #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
@@ -74,6 +77,12 @@ class CheddarGetter
   # no credit card information is already saved.
   def update_customer(customer_code, attributes)
     response = post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Returns an empty array.
+  def delete_customer(customer_code)
+    response = post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
     normalize(response, 'customers', 'customer')
   end
   
