@@ -130,6 +130,26 @@ class CheddarGetter
     response = post("/customers/edit-subscription/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
     normalize(response, 'customers', 'customer')
   end
+
+  # Increment an item counter for a given customer by item code.
+  def add_item(customer_code, item_code, quantity=1)
+    response = post("/customers/add-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+  
+  # Decrement an item counter for a given customer by item code.
+  def remove_item(customer_code, item_code, quantity=1)
+    response = post("/customers/remove-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Set an item quantity counter to an absolute value by item code.
+  # 
+  # Returns the customer.
+  def item_quantity(customer_code, item_code, quantity)
+    response = post("/customers/set-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
   
   private
   
