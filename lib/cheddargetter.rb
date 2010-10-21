@@ -150,6 +150,18 @@ class CheddarGetter
     response = post("/customers/set-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
     normalize(response, 'customers', 'customer')
   end
+
+  # Add a customer charge or credit by user.
+  #
+  # Returns the customer.
+  def add_charge(customer_code, item_code, charge_code, quantity, each_amount, description='')
+    # Charge code can only be up to 36 chars long.
+    charge_code = charge_code.size > 36 ? charge_code[0..35] : charge_code
+    # Quantity must be positive.
+    quantity = quantity < 0 ? 0 - quantity : quantity
+    response = post("/customers/add-charge/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'chargeCode' => charge_code, 'quantity' => quantity, 'eachAmount' => each_amount, 'description' => description })
+    normalize(response, 'customers', 'customer')
+  end
   
   private
   
