@@ -76,7 +76,13 @@ class CheddarGetter
   # Credit Card information is only required if the plan is not free and
   # no credit card information is already saved.
   def update_customer(customer_code, attributes)
-    response = post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    # Limit potential damage but calling edit-customer if we're
+    # not changing any subscription information.
+    response = if attributes[:subscription]
+                 post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+               else
+                 post("/customers/edit-customer/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+               end
     normalize(response, 'customers', 'customer')
   end
 
