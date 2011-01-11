@@ -194,6 +194,18 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #item_quantity(customer_code, item_code, quantity)' do
+    it "should return the updated customer" do
+      mock_request(:post, "/customers/set-item-quantity/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<customers><customer>updated customer</customer></customers>")
+      @cheddar_getter.item_quantity('MY_CUSTOMER', 'MY_ITEM').should == "updated customer"
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/set-item-quantity/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<error>failed update</error>")
+      lambda { @cheddar_getter.item_quantity('MY_CUSTOMER', 'MY_ITEM') }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }
