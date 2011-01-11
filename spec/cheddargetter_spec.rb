@@ -206,6 +206,26 @@ describe "an instance of CheddarGetter" do
     end
   end
   
+  describe 'calling #add_charge(customer_code, item_code, charge_code, quantity, each_amount, description)' do
+    it "should return the updated customer" do
+      mock_request(:post, "/customers/add-charge/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<customers><customer>updated customer</customer></customers>")
+      @cheddar_getter.add_charge('MY_CUSTOMER', 'MY_ITEM', 'charge_code', 5, 2, 'description').should == "updated customer"
+    end
+    
+    it "should raise if an error is returned" do
+      mock_request(:post, "/customers/add-charge/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<error>failed update</error>")
+      lambda { @cheddar_getter.add_charge('MY_CUSTOMER', 'MY_ITEM', 'charge_code', 5, 2, 'description') }.should raise_error(CheddarGetter::Error, 'failed update')
+    end
+    
+    it "should raise if charge code is out of bounds" do
+      lambda { @cheddar_getter.add_charge('MY_CUSTOMER', 'MY_ITEM', 'the quick brown fox jumped over the lazy dog.  silly lazy dog, quit being so lazy', 5, 2, 'description') }.should raise_error(CheddarGetter::Error, 'charge code must be less than 36 characters long')
+    end
+    
+    it "should raise if quantity is negative" do
+      lambda { @cheddar_getter.add_charge('MY_CUSTOMER', 'MY_ITEM', 'the quick brown fox.', -1, 2, 'description') }.should raise_error(CheddarGetter::Error, 'quantity must be positive')
+    end
+  end
+  
   def mock_request(method, request_path, response_xml)
     request_path.gsub!(/^\//, '')
     options = { :body => response_xml, :content_type =>  "text/xml" }

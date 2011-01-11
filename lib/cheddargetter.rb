@@ -125,6 +125,19 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  def add_charge(customer_code, item_code, charge_code, quantity, each_amount, description='')
+    raise Error.new('charge code must be less than 36 characters long') if charge_code.length > 36
+    raise Error.new('quantity must be positive') if quantity < 0
+    
+    response = post("/customers/add-charge/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", 
+      :body => { 
+        'chargeCode' => charge_code, 
+        'quantity' => quantity, 
+        'eachAmount' => each_amount, 
+        'description' => description })
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
