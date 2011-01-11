@@ -120,6 +120,11 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+  def item_quantity(customer_code, item_code, quantity)
+    response = post("/customers/set-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
