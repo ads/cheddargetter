@@ -110,6 +110,11 @@ class CheddarGetter
     post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
   end
   
+  def add_item(customer_code, item_code, quantity=1)
+    response = post("/customers/add-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+  
   private
   
   def get(path)
