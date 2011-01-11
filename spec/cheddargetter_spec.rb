@@ -185,12 +185,12 @@ describe "an instance of CheddarGetter" do
   describe 'calling #remove_item(customer_code, item_code, quantity)' do
     it "should return the updated customer" do
       mock_request(:post, "/customers/remove-item-quantity/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<customers><customer>updated customer</customer></customers>")
-      @cheddar_getter.add_item('MY_CUSTOMER', 'MY_ITEM').should == "updated customer"
+      @cheddar_getter.remove_item('MY_CUSTOMER', 'MY_ITEM').should == "updated customer"
     end
     
     it "should raise if an error is returned" do
       mock_request(:post, "/customers/remove-item-quantity/productCode/MY_PRODUCT/code/MY_CUSTOMER/itemCode/MY_ITEM", "<error>failed update</error>")
-      lambda { @cheddar_getter.add_item('MY_CUSTOMER', 'MY_ITEM') }.should raise_error(CheddarGetter::Error, 'failed update')
+      lambda { @cheddar_getter.remove_item('MY_CUSTOMER', 'MY_ITEM') }.should raise_error(CheddarGetter::Error, 'failed update')
     end
   end
   
