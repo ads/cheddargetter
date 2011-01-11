@@ -115,6 +115,11 @@ class CheddarGetter
     normalize(response, 'customers', 'customer')
   end
   
+   def remove_item(customer_code, item_code, quantity=1)
+     response = post("/customers/remove-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+     normalize(response, 'customers', 'customer')
+   end
+  
   private
   
   def get(path)
