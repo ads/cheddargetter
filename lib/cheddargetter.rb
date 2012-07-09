@@ -60,6 +60,9 @@ class CheddarGetter
   #     :ccZip        => "5 digits only"  # required unless plan is free
   #   }
   #
+  # The full request dictionary can be found here:
+  # https://cheddargetter.com/developers#add-customer
+  #
   # Returns the customer:
   #
   #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
@@ -73,8 +76,34 @@ class CheddarGetter
   # Credit Card information is only required if the plan is not free and
   # no credit card information is already saved.
   def update_customer(customer_code, attributes)
-    response = post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    # Limit potential damage but calling edit-customer if we're
+    # not changing any subscription information.
+    response = if attributes[:subscription]
+                 post("/customers/edit/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+               else
+                 post("/customers/edit-customer/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+               end
     normalize(response, 'customers', 'customer')
+  end
+
+  # Returns an empty array.
+  def delete_customer(customer_code)
+    response = post("/customers/delete/productCode/#{@product_code}/code/#{customer_code}")
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Delete all customers from CheddarGetter
+  # You must pass in :iDieWithHonor as a safety measure.
+  def seppuku!(really=nil)
+    if really == :iDieWithHonour
+      begin
+        response = post("/customers/delete-all/confirm/1/productCode/#{@product_code}")
+      # CheddarGetter assumes we're a browser and tries 
+      # to redirect us to our admin site afterwards.
+      rescue HTTParty::UnsupportedURIScheme
+        true
+      end
+    end
   end
   
   # Returns the customer:
@@ -99,6 +128,38 @@ class CheddarGetter
   #   {"firstName" => "Justin", "lastName" => "Blake", etc...}
   def update_subscription(customer_code, attributes)
     response = post("/customers/edit-subscription/productCode/#{@product_code}/code/#{customer_code}", :body => attributes)
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Increment an item counter for a given customer by item code.
+  def add_item(customer_code, item_code, quantity=1)
+    response = post("/customers/add-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+  
+  # Decrement an item counter for a given customer by item code.
+  def remove_item(customer_code, item_code, quantity=1)
+    response = post("/customers/remove-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Set an item quantity counter to an absolute value by item code.
+  # 
+  # Returns the customer.
+  def item_quantity(customer_code, item_code, quantity)
+    response = post("/customers/set-item-quantity/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'quantity' => quantity })
+    normalize(response, 'customers', 'customer')
+  end
+
+  # Add a customer charge or credit by user.
+  #
+  # Returns the customer.
+  def add_charge(customer_code, item_code, charge_code, quantity, each_amount, description='')
+    # Charge code can only be up to 36 chars long.
+    charge_code = charge_code.size > 36 ? charge_code[0..35] : charge_code
+    # Quantity must be positive.
+    quantity = quantity < 0 ? 0 - quantity : quantity
+    response = post("/customers/add-charge/productCode/#{@product_code}/code/#{customer_code}/itemCode/#{item_code}", :body => { 'chargeCode' => charge_code, 'quantity' => quantity, 'eachAmount' => each_amount, 'description' => description })
     normalize(response, 'customers', 'customer')
   end
   
